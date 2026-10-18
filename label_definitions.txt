@@ -5,6 +5,7 @@
 #
 # Delete the examples below and put yours in.
 
-analysis: makes an argument backed by a specific, checkable fact
-hot_take: a confident claim with no support offered
-reaction: an immediate response to something that just happened
+food_review: evaluates a specific food or meal, usually with reasons
+food_story: recounts a meal or food-related memory without mainly reviewing or recommending it 
+recommendation: tells others what to try or where to eat
+

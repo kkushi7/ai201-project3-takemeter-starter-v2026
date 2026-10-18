@@ -42,7 +42,8 @@
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
 
-
+device: cpu  (CPU)
+torch:  2.14.1+cpu
 
 ---
 
@@ -54,35 +55,44 @@
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+### `label_one` food_review
 
-**Definition:**
+**Definition:** evaluates a specific food or meal, usually with reasons
 
-**Example 1:**
->
-
-**Example 2:**
->
-
-### `label_two`
-
-**Definition:**
-
-**Example 1:**
->
+**Example 1:** 
+> One thing I've found here is that the food is very reasonably priced. Lunch, for many, is the main meal of the day. In fact, the word for lunch is la comida, which simply means "the meal." Our lunch yesterday was $36 per person for a three course meal, which included a bottle of wine and coffee. By the way, I am indulging in a few carbs on this trip. :smile:
 
 **Example 2:**
->
+> Pizza for dinner. I changed my strategy. I bought a basic cheese frozen pizza, and my own toppings, and I added some herbs and EVOO, and some parmigiano-reggiano. It was good, and about seven or eight bucks total?
+
+### `label_two` food_story
+
+**Definition:** recounts a meal or food-related memory without mainly reviewing or recommending it
+
+**Example 1:**
+> Wish I had taken a picture of our dinner last night. We each had a large toasted fresh Bolillo roll (think Mexican hot dog bun on steroids) containing two browned and beer simmered Johnson Brats, topped with brown mustard and kraut. Now that's a hot dog worth eating!! :yum: *burp*...scuze me. :wink: Bea, I sure wish we could get those white Snappy dogs..I know I'd like them!!
+
+**Example 2:**
+> I guess I have to add that my truest favorite is any wiener impaled on a willow twig that I cut myself along a creek, then cooked over a campfire. We had family weeny roasts like that often when I was a kid - do your hot dog, then use the same stick for a couple of marshmallows for s'mores. Great memories! :yum:
+
+### `label_three` recommendation
+
+**Definition:** tells others what to try or where to eat
+
+**Example 1:**
+> We had garlic baked butter chicken thighs, which I've prepared before and we really liked them. It's so easy and if you like garlic, this is a good 'un for you. Had some herbed and buttered noodles on the side and confetti cupcakes for dessert. Even enough left for our meal tomorrow. Good thing, too, 'cause Mother Nature is supposed to start a really bad COLD hissy fit tomorrow. I didn't have boneless skinless thighs this time, but that didn't seem to matter. Here's a link to the recipe if anyone is interested:
+
+**Example 2:**
+> Giordano's, Gino's East, and uno’s are all close to he cubs stadium off lakeshore drive. Lou malnati’s, I heard is very good but have never eaten there yet and not sure where it’s located near.
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** food_review and recommendation
 
 **The decision rule I used every time:**
 <!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
      if the tone is heated." -->
-
-
+If the post mainly evaluates a specific food or meal the writer had, I label it food_review. If its main purpose is to tell readers what to try or where to eat, I label it recommendation, even when it includes praise or reasons. If both fit, I choose based on the main takeaway for the reader. That makes the distinction about the post’s purpose, rather than whether it says something positive or negative.
 
 ---
 
