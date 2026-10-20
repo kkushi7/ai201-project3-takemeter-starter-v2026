@@ -51,61 +51,41 @@ whether you hit them:
 
 ---
 
-## 1.
+## 1. Overall accuracy
 
-<!-- Your criterion. It must name a number. -->
+The model will achieve at least 0.60 accuracy on each of the three seeds.
 
+**Why this target:** I chose 0.60 because a random guess across three labels would be right about 0.33 of the time. Requiring 0.60 means the classifier must do meaningfully better than guessing without assuming this small dataset will produce near-perfect results.
+---
 
+## 2. Food review performance
 
-**Why this target:**
+The `food_review` F1 score will be at least 0.50 on each of the three seeds.
 
-
+**Why this target:** I chose 0.50 because some posts evaluate a meal while also telling a story or giving advice. This is a moderate floor that still requires the model to identify reviews usefully across all three seeds.
 
 ---
 
-## 2.
+## 3. Food story performance
 
-<!-- Your criterion. -->
+The `food_story` F1 score will be at least 0.40 on each of the three seeds.
 
+**Why this target:** I chose 0.40 because stories can include opinions that sound like reviews, such as the dinner post that recounts a meal and calls it “a hot dog worth eating.” I set a lower target for this harder boundary, but still want performance above chance.
+---
 
+## 4. Recommendation performance
 
-**Why this target:**
+The `recommendation` F1 score will be at least 0.50 on each of the three seeds.
 
-
+**Why this target:** I chose 0.50 because recommendations often include personal experience or evaluation, which can make them look like reviews. The target allows for that overlap while requiring the model to recognize advice consistently.
 
 ---
 
-## 3.
+## 5. Confidence
 
-<!-- Your criterion. -->
+On each of the three seeds, accuracy on the model’s most-confident third of predictions will be at least 0.10 higher than on its least-confident third.
 
-
-
-**Why this target:**
-
-
-
----
-
-## 4.
-
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
-
----
-
-## 5.
-
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
+**Why this target:** I chose a 0.10 accuracy gap because the test set should be about 30 posts, or roughly 10 per confidence group. A 10-point gap is about one more correct prediction in the most-confident third than in the least-confident third, making it a modest but meaningful difference
 
 
 
