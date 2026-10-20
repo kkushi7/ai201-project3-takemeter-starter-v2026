@@ -183,6 +183,7 @@ of next unit's variance. -->
 - *What I changed:*
 
 **Pre-labelling disclosure:**
+I used an AI assistant to generate provisional labels for posts on lines 69–203 of `labels.csv`, using my three label definitions. I still need to review every post and correct any labels that do not fit before training.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
