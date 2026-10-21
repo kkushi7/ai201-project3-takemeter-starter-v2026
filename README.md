@@ -41,6 +41,7 @@
 
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
+     I built a text classifier for posts from the Discuss Cooking forum. It sorts food-related posts into food_review, food_story, or recommendation. A review evaluates a specific food or meal, a story recounts a food-related experience or memory, and a recommendation suggests what to try or where to eat.
 
 device: cpu  (CPU)
 torch:  2.14.1+cpu
@@ -101,18 +102,19 @@ If the post mainly evaluates a specific food or meal the writer had, I label it 
 <!-- Where you collected from, how you labelled, your counts, and three hard
      cases. -->
 
-**Where the posts came from:**
+**Where the posts came from:** The posts came from a cooking forum called Discuss Cooking https://www.discusscooking.com/ 
 
 **How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
 Say so plainly — the disclosure is required, not penalised. -->
+
+I labeled the post by cold first doing about 60 of them, and then used the pre-labelled with AI to do the rest.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
+|Cold| 67 | 33% |
+|Pre-labelled| 135 | 67% |
 | **Total** |  | 100% |
 
 **Three hard cases**
@@ -122,24 +124,24 @@ Say so plainly — the disclosure is required, not penalised. -->
 
 **1.**
 > *The post:*
->
+> "We use them for different applications but we do make a lot of frangipane. There's a big difference, they're richer and creamier, softer more macadamia nut like. We use Cali almonds as well if it's in a recipe where it's not dominant but for plates where they are we only use Marcona. They aren't cheap, so be warned. I'm surprised your supplier, forget the name doesn't have them, it seems they would be right up their alley."
 > *Could have been:*
->
-> *I chose, because:*
+> Food_review
+> *I chose, because:* Recommendation, since they phrase their wording in a way that they want others to try these ingredients instead of the usual.
 
 **2.**
 > *The post:*
->
+> "I also store nuts in the freezer if i am not using them fast enough."
 > *Could have been:*
->
-> *I chose, because:*
+> recommendation
+> *I chose, because:* Food_review since it gives more of a reasoning instead of why they store it in the freezer.
 
 **3.**
 > *The post:*
->
+> "Cheese and onion sandwiches have been in my rotation from childhood. I don't shred the cheese or add mayo. I slice both the cheese, which is generally a cheddar and the onion, normally on toasted buttered sourdough. i'll add a fried egg if it's for breakfast."
 > *Could have been:*
->
-> *I chose, because:*
+> recommendation
+> *I chose, because:* Food_story since it starts with a memory of when they would eat the food and not have exact purpose of recommending it or critiquing it
 
 ---
 
@@ -147,17 +149,17 @@ Say so plainly — the disclosure is required, not penalised. -->
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** distilbert-base-uncased
 
 **Settings:** <!-- epochs, learning rate, batch size, seed -->
+ 3 epochs, learning rate 2e-5, batch size 16, seed 42, maximum sequence length 128. I trained on CPU.
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** I kept the default training settings
 
 **Split sizes:** <!-- train / val / test, and per-label counts in the test
 split. If a label had fewer than about 8 in test, say so — it explains a lot
 of next unit's variance. -->
-
-
+140 train / 31 validation / 31 test. The test split had 9 food_review, 9 food_story, and 13 recommendation posts.
 
 ---
 
@@ -172,18 +174,18 @@ of next unit's variance. -->
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked an AI assistant to stress-test my label definitions by writing eight posts near the category boundaries.
+- *What came back:* It showed examples that could be confused between reviews, stories, and recommendations, and suggested a decision rule based on each post’s main purpose.
+- *What I changed:* I removed hot_take and used three labels: food_review, food_story, and recommendation. I added the main-purpose rule to help distinguish reviews from recommendations.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I gave the assistant my definitions and asked it to pre-label 135 forum posts.
+- *What came back:* It suggested labels for the posts.
+- *What I changed:* I reviewed every pre-labeled post and corrected labels that didn’t fit my definitions.
 
 **Pre-labelling disclosure:**
-I used an AI assistant to generate provisional labels for posts on lines 69–203 of `labels.csv`, using my three label definitions. I still need to review every post and correct any labels that do not fit before training.
+I used an AI assistant to generate provisional labels for posts on lines 68–202, using my three label definitions. I reviewed every post and corrected any labels that do not fit before training.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
