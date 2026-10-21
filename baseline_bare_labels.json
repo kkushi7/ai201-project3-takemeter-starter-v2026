@@ -1,0 +1,189 @@
+{
+  "model": "facebook/bart-large-mnli",
+  "n": 31,
+  "seed": 42,
+  "held_out": true,
+  "used_definitions": false,
+  "scores": {
+    "n": 31,
+    "accuracy": 0.5161290322580645,
+    "f1_macro": 0.5061728395061729,
+    "per_label": {
+      "food_review": {
+        "precision": 0.5,
+        "recall": 0.3333333333333333,
+        "f1": 0.4,
+        "support": 9
+      },
+      "food_story": {
+        "precision": 0.5454545454545454,
+        "recall": 0.6666666666666666,
+        "f1": 0.6,
+        "support": 9
+      },
+      "recommendation": {
+        "precision": 0.5,
+        "recall": 0.5384615384615384,
+        "f1": 0.5185185185185186,
+        "support": 13
+      }
+    }
+  },
+  "predictions": [
+    {
+      "text": "Dry brining is what I prefer which is basically rubbing the bird with salt and about 1% of the actual weight of the chicken and then left in the fridge for up to 48 hours. The salt draws a little moisture out of the skin and that moisture then disolves the salt and that saltly liquid diffuses back into the meat which results in the proteins in chicken holding more water during cooking. The flavor is better because there's no dilution by adding water and crispier skin.",
+      "gold": "recommendation",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "I love pimento cheese, which is different than just cheese, onion, and mayo. I used to make the cheese, onion and mayo into a hot spread, which is also delicious. Basically, mix it all together and bake until the entire thing is bubbly and spread on crackers or bread. Very yummy.",
+      "gold": "food_story",
+      "predicted": "food_story"
+    },
+    {
+      "text": "Some kind of bread I've made when I cooked more had you put a metal pan in the oven while preheating, then throw a handful of ice cubes in when you put the bread in. That did a pretty good job as far as steam and creating a nice crust. Just make sure you use metal and not glass!",
+      "gold": "recommendation",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "This is the recipe that I use. I use the canned clams. The other ones are not available at my stores. I'm sure someone here abouts has them.",
+      "gold": "recommendation",
+      "predicted": "food_review"
+    },
+    {
+      "text": "Most of the grocery stores around here have tubs of live lobsters. Whenever I look in the tub, I imagine the little guys saying 'free me, free me'. :lol: Poor lobsters, most people think they're saying 'eat me, eat me' and poof, gone Lobster, gone. :yum:",
+      "gold": "food_story",
+      "predicted": "food_story"
+    },
+    {
+      "text": "Subway has changed their bread. It's more pastry like, almost like a croissant. Needless to say I don't like it.",
+      "gold": "food_review",
+      "predicted": "food_review"
+    },
+    {
+      "text": "I love oatmeal chocolate chip cookies. Takes me back to a friend's mother who would bring some down when we were shooting pool after school.",
+      "gold": "food_story",
+      "predicted": "food_story"
+    },
+    {
+      "text": "Depends on the cheese. Cream cheese, not that great, comte or cheddar, pretty tasty and the onion seals the deal and oh, let there be butter. ",
+      "gold": "food_review",
+      "predicted": "food_review"
+    },
+    {
+      "text": "I've begun cooking with chemicals, msg, citric acid, etc, to compete with mcdonalds and make healthier variations on mcdonalds, cheetos, etc, with just as much, if not more flavor, which of course requires chemicals, yet I use healthy oils, instead of the horrible nauseating engine oil they use.",
+      "gold": "food_story",
+      "predicted": "food_story"
+    },
+    {
+      "text": "I don't think that subway has had decent bread for years. With that said, it's reliable and I can get the sandwich exactly how I want it. The ones on my neighborhood are exceptionally clean and well run, I suspect that they are all owned by the same person.",
+      "gold": "food_review",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "I should mention I always take the temperature of bread to see if it is done. 190\u2109/88 \u2103 is perhaps a little low but still OK. Perfect for me is 200\u2109/93 \u2103 Still ok but pushing it is 210\u2109/99\u2103",
+      "gold": "recommendation",
+      "predicted": "food_review"
+    },
+    {
+      "text": "I use vinegar on fish and chips all the time. Tastes great, and it is natural.",
+      "gold": "food_review",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "If you want something less fussy, make up some jerky with various kinds of meat, and some fruit leather. You can eat it while on the road.",
+      "gold": "recommendation",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "freezing does not kill yeast. I buy one pound bags of dry active, transfer a working stock to a small jar, the rest stays in the freezer - for long time . . .",
+      "gold": "recommendation",
+      "predicted": "food_story"
+    },
+    {
+      "text": "I believe you will get better results with the dutch oven. Testing has shown that stews, stocks, etc. have a deeper flavor when cooked on a stovetop/oven or in a pressure cooker.",
+      "gold": "recommendation",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "I grind the flax and chia seeds so they can give up their nutrition and they hold the crackers together.",
+      "gold": "food_review",
+      "predicted": "food_story"
+    },
+    {
+      "text": "When I was traveling long distance, my lunch stop was always a fast food pick-up and eat in the car. Once I even picked-up some Chinese and ate it with chop stix while driving. LOL",
+      "gold": "food_story",
+      "predicted": "food_story"
+    },
+    {
+      "text": "Following up on this for future reference me! After doing several more tests (of my second experiment of when to add sugar) in this area, I find that it does indeed make a difference when I add the sugar. I didn't take any pictures of this (when I made sponge cakes) but this test kitchen video sums up my own personal conclusion: sugar is best added 1 minute in.",
+      "gold": "food_review",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "Yeah, I normally just use the paste and I use Mae Ploy as well. I did make it once after visiting Thailand and having a chef I was familiar with teach me how to make it, back in 2010 and I then tried to replicate using the same ingredients once I got back, yeah, it was one of my more frustrating recipes that never lived up to a good authentic Thai green curry paste, so it's either a makeshift curry paste or just get a good import, so that's what I do for this particular curry, maybe I might try a make another since finding a new Thai/Asian market within a 30 minute drive.",
+      "gold": "food_review",
+      "predicted": "food_story"
+    },
+    {
+      "text": "Just want to mention due to your suggestion I made beef barley soup the other day. It was really thick and delicious. I then replaced my noodles with a small amount of barley (about 1/4th of what I used for the barley soup). That thickens the soup up nice (still used a corn starch slurry but the combo was amazingly nice and thick and beefy!!). That is going to be my new go-to soup I think. So yummy. I already had the pearl barley and have not even used 1/3rd of it yet. Thanks for the recommendation, you kicked my soup up another notch!!!",
+      "gold": "recommendation",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "I made a tray bake. I followed a new to me recipe for chicken in a yogourt marinade with cumin carrots. I put that at one end of the tray and then put some quartered blue fingerling potatoes and some 'shrooms at the other end and threw a mild Italian sausage on top of the veg. I don't think I'll buy those blue fingerlings again. They tasted quite good and very potatoey. But, I can't tell if there spots on the skin and when I had some leftover from another meal and tried to make home fries, it was impossible to see how cooked they were. There was no visible browning. So, while they are tasty, they are too much nuisance. I won't bother with that marinade again. It wasn't very interesting, it kept the chicken from browning, and some of it turned black. It was only okay. I have had chicken with yogourt marinade before and liked it better, but it was an Indian recipe. The carrots were good. I'll do that with them again.",
+      "gold": "food_review",
+      "predicted": "food_review"
+    },
+    {
+      "text": "I find that I am starting to lean toward the picnic fare sort of things when driving. Recently, I bought a plug-in cooler. But sandwiches, cut up veggies, non-messy finger foods rate with me. Oh, and corn nuts. I don't know why, but I absolutely love the original Corn Nuts.",
+      "gold": "food_story",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "I always make a Swiss meringue. I feel it's more stable for the desserts I make, but yeah adding the sugar after the whites begin to denature and before soft peaks is the best way.",
+      "gold": "recommendation",
+      "predicted": "food_review"
+    },
+    {
+      "text": "My favorite was at the now closed Boyd's Burgermaster on 10th Ave South in Great Falls, Montana. It was the first actual drive through I ever saw, long before McD's offered anything but a walk up window. It was a regular stop when we were out cruising Central Ave in the 60's. They sold a foot long dog with just onions and their own sauce. The onions were thin sliced then separated, not chopped, and the sauce was at least partly with both mustard and ketchup, but there was something more to it as well. They also had a pizza burger and their signature mushroom sauced Rampburger - all were pretty special when compared to the current crop of cookie cutter franchises. I last ate there when visiting in 2004 - they closed around 2010.",
+      "gold": "food_story",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "Which just brought me to another suggestion - split pea soup with chopped spam. Freeze in muffin tins and portion out in your foodsaver. Made ahead corn muffins, and you've got a great microwaveable dinner. You could do white bean soup, too. :yum: Healthy and filling.",
+      "gold": "recommendation",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "I've read that whole flax seeds and whole chia seeds pass through the body without breaking up. The nutrition they hold stays inside the seed. That's why I grind them. I guess that's why I've always ground them.",
+      "gold": "recommendation",
+      "predicted": "food_story"
+    },
+    {
+      "text": "Subway's great, and they're everywhere. I usually get a Veggie Delite on wheat. I always ask them to put red onion and` oregano on the sandwich before toasting it because it's better that way.",
+      "gold": "food_review",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "If you have room in the vehicle consider packing a cooler, pantry box and a kitchen box. I used to travel with a small toaster oven and an electric coffee pot in my kitchen box. My aunt used to travel with a blender, for happy hour, and a small canned ham in hers. Take whatever works for you and your family.",
+      "gold": "recommendation",
+      "predicted": "recommendation"
+    },
+    {
+      "text": "Yes, similar to how I make it too, but I use sugar instead of honey, to help activate the yeast.",
+      "gold": "recommendation",
+      "predicted": "food_story"
+    },
+    {
+      "text": "I live in a small (3500) Midwest town, and fast food is a McDs, a Subway and a Culvers. I very rarely frequent any of them ... fast food is what I do when I have to go to Florida to do family obligations, and after 3 days in the car, eating fast food, awhile there, then three days back, I never want any of it again.",
+      "gold": "food_story",
+      "predicted": "food_story"
+    },
+    {
+      "text": "Being from the northern middle US (wisconsin), I was never introduced to a tomato 'gravy'. My tennessee (southern middle US) friend explained that they used a tomato gravy thickened with roux (as above) for all kinds of meals. I really couldn't wrap my head around 'tomato gravy' before that. Another friend, from colorado (western US), introduced me to tomato soup with dumplings I'd never heard of. That is also really good.",
+      "gold": "food_story",
+      "predicted": "recommendation"
+    }
+  ]
+}

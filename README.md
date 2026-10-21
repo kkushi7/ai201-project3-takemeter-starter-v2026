@@ -215,6 +215,7 @@ I used an AI assistant to generate provisional labels for posts on lines 68–20
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
      nothing — and that is a real finding, not a failure. Say it plainly. -->
+     Fne-tuning improved performance on the same 31 held-out posts: accuracy rose from 0.290 to 0.516, and macro F1 from 0.150 to 0.371. The trained model scored much better on food_story and recommendation, but its food_review F1 fell from 0.450 to 0.000. So fine-tuning helped overall, but the model still struggles to recognize reviews; this result is based on a small test set.
 
 
 
