@@ -201,14 +201,16 @@ I used an AI assistant to generate provisional labels for posts on lines 68–20
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.290 | 0.516 | +0.226 |
+| Macro F1 | 0.150 | 0.371 | +0.221 |
+| F1 — `food_review` | 0.450 | 0.000 | -0.450 |
+| F1 — `food_story` | 0.000 | 0.462 | +0.462 |
+| F1 — `recommendation` | 0.000 | 0.650 | +0.650 |
 
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
      prediction made afterwards isn't one. -->
+     I expected the trained model to beat the baseline most on food_story and recommendation, because fine-tuning could learn those categories while the baseline appeared to recognize mainly food_review.
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
