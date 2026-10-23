@@ -239,16 +239,17 @@ I used an AI assistant to generate provisional labels for posts on lines 68–20
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
+| true \ predicted | food_review | food_story | recommendation |
 |---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| **food_review** | 0 | 1 | 8 |
+| **food_story** | 0 | 3 | 6 |
+| **recommendation** | 0 | 0 | 13 |
 
 **My biggest off-diagonal number, and what it means:**
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
+     Eight real food_review posts were predicted as recommendation, while no recommendation posts were predicted as food_review. The model strongly favored recommendation at this boundary and failed to recognize reviews.
 
 
 
