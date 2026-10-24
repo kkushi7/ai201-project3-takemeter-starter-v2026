@@ -228,11 +228,11 @@ I used an AI assistant to generate provisional labels for posts on lines 68–20
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.60 | 0.516 | 0.419 | 0.419 | MISSED |
+| 2. Food review F1 | ≥ 0.50 | 0.000 | 0.000 | 0.000 | MISSED |
+| 3. Food story F1 | ≥ 0.40 | 0.4615 | 0.0000 | 0.0000 | MISSED |
+| 4. Recommendation F1 | ≥ 0.50 | 0.6500 | 0.5909 | 0.5909 | MISSED |
+| 5. Confidence gap | ≥ 0.10 | 0.60 | 0.80 | 0.30 | MET |
 
 ### Confusion matrix
 
@@ -262,11 +262,11 @@ I used an AI assistant to generate provisional labels for posts on lines 68–20
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Overall accuracy | ≥ 0.60 | MISSED | The target does not hold across all three seeds: 0.516, 0.419, and 0.419 are all below 0.60 on at least one run. |
+| 2 | Food review F1 | ≥ 0.50 | MISSED | Food review F1 is 0.000 in all three seeds, so the target never holds. |
+| 3 | Food story F1 | ≥ 0.40 | MISSED | Seed 42 reaches 0.462, but Seed 7 and Seed 2024 both fall to 0.000; the target must hold across all three seeds. |
+| 4 | Recommendation F1 | ≥ 0.50 | MET | Recommendation F1 is 0.650, 0.591, and 0.591, so it exceeds the target in every seed. |
+| 5 | Confidence gap | ≥ 0.10 | MET | The confidence gap is 0.60, 0.80, and 0.30, so the model is more accurate in the most confident third than the least confident third in every seed. |
 
 **Diagnoses**
 
@@ -279,6 +279,7 @@ I used an AI assistant to generate provisional labels for posts on lines 68–20
      have that can tell a LABELLING problem from a MODEL problem, and this
      section is graded on whether you used it that way. -->
 
+     The misses are driven by the same underlying problem: the model fails to learn the food_review boundary reliably. Across the three seeds, food_review F1 stays at 0.000, and the confusion matrix shows that eight true food_review posts are predicted as recommendation. That makes the main diagnosis a label-boundary problem rather than a random training failure. The agreement report reinforces this: several disagreements were cases where I treated a fact-based claim as reaction or hot_take, but the staff definitions are more consistent about treating evidence-heavy comparison posts as analysis. That mismatch explains why the model and my own labeling both over-prefer recommendation at the food_review boundary.
 
 
 ---
