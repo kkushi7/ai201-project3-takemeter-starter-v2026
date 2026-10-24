@@ -184,6 +184,18 @@ of next unit's variance. -->
 - *What came back:* It suggested labels for the posts.
 - *What I changed:* I reviewed every pre-labeled post and corrected labels that didn’t fit my definitions.
 
+**Moment 3**
+
+- *What I asked for:* I asked the assistant to look at my confusion matrix and failed predictions and tell me what pattern was recurring.
+- *What came back:* It identified that many true food_review and food_story posts were being collapsed into recommendation, and that the model was favoring the recommendation class at the boundary where the post’s purpose was unclear.
+- *What I changed:* I tightened the decision rule around the review/recommendation boundary and focused my relabeling on posts where the writer was evaluating a meal versus recommending it to others. This helped me diagnose the real issue as a boundary problem rather than a random training failure.
+
+**Moment 4**
+
+- *What I asked for:* I asked the assistant to compare the real labels to my model errors and tell me whether the mistakes looked like a single boundary issue or a broader dataset problem.
+- *What came back:* It suggested that the recurring pattern was a label-boundary problem, especially around posts that mixed personal experience with a recommendation or an evaluation.
+- *What I changed:* I focused my relabeling on posts where the writer’s main purpose was to evaluate a meal versus persuade others to try it, and I used the confusion-matrix pattern as evidence that the model was over-predicting recommendation. This helped me confirm that the issue was not random noise, but a systematic boundary confusion in my training data.
+
 **Pre-labelling disclosure:**
 I used an AI assistant to generate provisional labels for posts on lines 68–202, using my three label definitions. I reviewed every post and corrected any labels that do not fit before training.
 
@@ -398,12 +410,14 @@ I relabeled the food_review / recommendation boundary and applied the rule consi
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
-
+- Overall accuracy: I would add more boundary-heavy examples for food_review and food_story, especially posts where a meal is described in a personal or evaluative way but is not a direct recommendation. I stopped there because the relabel fix did not improve accuracy across seeds, so the issue is not just one mislabeled rule but a broader boundary problem in the training data.
+- Food review F1: I would gather more clearly labeled review posts and re-check the review/recommendation rule to make sure the model sees more explicit “I ate this and here is my assessment” examples. I stopped because the model still predicts true food_review posts as recommendation in every seed, which shows the label boundary itself is still not learned well enough to fix with another small change.
+- Food story F1: I would add more first-person memory posts and more examples that distinguish “telling a story about a meal” from “recommending a meal to try.” I stopped because the model still confuses story posts with recommendation, and the single improvement I made did not materially improve that pattern.
 
 **The gap between what I meant my labels to capture and what the model
 learned:**
 <!-- Two sentences. Your confusion matrix is the evidence. -->
-
+The model is still collapsing the review and story boundaries into recommendation. The confusion matrix shows eight true food_review posts predicted as recommendation and six true food_story posts predicted as recommendation, while no recommendation posts were predicted as food_review, which means the model learned the recommendation class too aggressively and still does not reliably separate evaluation from suggestion.
 
 
 <!-- ═════════════════════════════════════════════════════════════════════
