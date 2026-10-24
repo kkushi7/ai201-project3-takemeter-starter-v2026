@@ -372,25 +372,25 @@ My disagreements cluster around the analysis/reaction boundary: I was weighting 
 ## The Improvement
 
 **What I changed:**
-
+I relabeled the food_review / recommendation boundary and applied the rule consistently across the dataset.
 **Which diagnosis pointed at it:**
+“The confusion matrix showed that true food_review posts were being predicted as recommendation, and my agreement disagreements clustered around that same boundary.”
 
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.60 | 0.387 | 0.484 | 0.419 | MISSED |
+| 2. Food review F1 | ≥ 0.50 | 0.182 | 0.000 | 0.182 | MISSED |
+| 3. Food story F1 | ≥ 0.40 | 0.000 | 0.533 | 0.000 | MISSED |
+| 4. Recommendation F1 | ≥ 0.50 | 0.550 | 0.595 | 0.571 | MET |
+| 5. Confidence gap | ≥ 0.10 | 0.70 | 0.60 | 0.40 | MET |
 
 **Did it help, and how do I know:**
 
 <!-- If it didn't, say so. Relabelling that didn't help is a genuinely
      interesting result and earns full credit. -->
-
-
+     The improvement did not help. The target still fails for overall accuracy, food_review F1, and food_story F1, while recommendation remains above target. That is a valid result and a good diagnosis.
 
 ---
 
