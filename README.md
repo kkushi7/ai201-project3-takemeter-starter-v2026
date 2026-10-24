@@ -291,7 +291,7 @@ I used an AI assistant to generate provisional labels for posts on lines 68–20
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** ___ / 30 = ___%
+**Agreement rate:** __25_ / 30 = _83_%
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
@@ -315,25 +315,56 @@ I used an AI assistant to generate provisional labels for posts on lines 68–20
 
 **1.**
 > *The post:*
->
+>  "I tracked sleep against session quality for eleven weeks. Under seven hours the next day's intervals were 6-8 seconds per mile slower, every time bar one. Small sample, one runner, but it's consistent enough that I've stopped scheduling hard days after late shifts." 
 > *Staff said / I said:*
->
+> analysis / reaction
 > *My call, and why:*
->
+> I think staff is right: the post is built around a checkable pattern across weeks and a specific time difference. The writer uses a fact to support a conclusion, even though it is framed in first person.
 > *Which pile:*
+     (c) the rule is ambiguous here and my reading is defensible
 
 **2.**
 > *The post:*
->
+> "Everyone blames the hill at 18 miles. I split the field into people who ran the first half under 1:45 and over, and the slowdown after 18 was almost identical for both groups. If the hill were the problem the fast starters would fall apart harder."
 > *Staff said / I said:*
->
+> analysis / hot_take
 > *My call, and why:*
->
+> I think this is analysis because it tests a causal claim by comparing two groups and using a direct fact to evaluate the explanation. The comparison is the argument.
 > *Which pile:*
+     (a) the rule covered it and I applied it loosely
+
+**3.**
+> *The post:*
+> "Checked the entry lists. 41% of this year's field have never run the distance before, against 26% five years ago. That's why the finish-line photos look different, not because standards dropped."
+> *Staff said / I said:*
+> analysis / reaction
+> *My call, and why:*
+> I think staff is right because the post relies on a direct percentage comparison across years to explain a trend. The numbers carry the argument, not just the feeling.
+> *Which pile:*
+     (a) the rule covered it and I applied it loosely
+
+**4.**
+> *The post:*
+> "Ran the same loop in 4C and in 24C within a fortnight, same effort by heart rate. 90 seconds slower in the heat over six miles. People keep saying heat costs you 'a bit' and it's more than that."
+> *Staff said / I said:*
+> analysis / reaction
+> *My call, and why:*
+> I think this is analysis because it compares the same run under two conditions and gives a measured difference as evidence. The temperature effect is explicitly used as support.
+> *Which pile:*
+     (a) the rule covered it and I applied it loosely
+
+**5.**
+> *The post:*
+> "Three of us ran the same session on the same day, different shoes, within 10 seconds of each other over 5 miles. I'm not saying shoes do nothing, but whatever they do was smaller than the noise between three people."
+> *Staff said / I said:*
+> analysis / hot_take
+> *My call, and why:*
+> I think this is analysis, although it is a borderline case: the writer gives a rough but concrete comparison and uses it to evaluate a causal claim. The fact is not decorative; it is the basis of the conclusion.
+> *Which pile:*
+     (c) the rule is ambiguous here and my reading is defensible
 
 **What the pattern in my disagreements tells me:**
-
-
+My disagreements cluster around the analysis/reaction boundary: I was weighting the writer's first-person framing and under-weighting whether the post used a checkable fact to support a claim. In several posts, the numbers or direct comparisons were the actual argument, even when the writing sounded personal; that is a consistency problem in how I applied the staff rules, not a gap in the rules themselves.
 
 ---
 
