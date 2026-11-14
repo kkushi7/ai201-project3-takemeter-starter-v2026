@@ -461,7 +461,7 @@ The model is still collapsing the review and story boundaries into recommendatio
 ## The Capstone
 
 ## The Shape: 
-     - Shape A: I will package the classifier as a small API and deploy it so it can run beyond my laptop. Each request will return a predicted label and confidence, while the service records the timestamp, response time, status, and predicted-label counts. I will use those logs to summarize request volume, latency, errors, and class distribution, without storing the submitted post text.
+     - Shape A: I will package the classifier as a local API that starts with one documented command. It will return a predicted label and confidence, and record structured logs with timestamps, response times, request status, and predicted-label counts without saving submitted post text. I will include a text run record from a real session and document the Python version, pinned dependencies, and required model files and their sizes in `RUNNING.md`.
 
 ## Out of Scope:
 I considered adding a web interface, user accounts, and automatic model retraining, but I’m not doing those as it would require more time than given. This extension will focus on deploying the API and measuring its operation and won’t change the classifier or store submitted post text.
