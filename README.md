@@ -466,4 +466,18 @@ The model is still collapsing the review and story boundaries into recommendatio
 ## Out of Scope:
 I considered adding a web interface, user accounts, and automatic model retraining, but I’m not doing those as it would require more time than given. This extension will focus on deploying the API and measuring its operation and won’t change the classifier or store submitted post text.
 
+## Local service run record
+
+Started locally with `python serve.py` and sent eight prediction requests. All returned status 200. Mean logged latency was 142.23 ms; every prediction was `recommendation`. This is a small observed session, not a general performance guarantee.
+
+text
+{"timestamp": "2026-11-14T04:53:52Z", "status": 200, "latency_ms": 615.93, "label": "recommendation", "error": null}
+{"timestamp": "2026-11-14T04:56:40Z", "status": 200, "latency_ms": 63.52, "label": "recommendation", "error": null}
+{"timestamp": "2026-11-14T05:01:34Z", "status": 200, "latency_ms": 27.17, "label": "recommendation", "error": null}
+{"timestamp": "2026-11-14T05:02:36Z", "status": 200, "latency_ms": 28.63, "label": "recommendation", "error": null}
+{"timestamp": "2026-11-14T05:03:41Z", "status": 200, "latency_ms": 55.95, "label": "recommendation", "error": null}
+{"timestamp": "2026-11-14T05:04:34Z", "status": 200, "latency_ms": 27.9, "label": "recommendation", "error": null}
+{"timestamp": "2026-11-14T05:36:16Z", "status": 200, "latency_ms": 271.44, "label": "recommendation", "error": null}
+{"timestamp": "2026-11-14T05:38:26Z", "status": 200, "latency_ms": 47.32, "label": "recommendation", "error": null}
+
 
