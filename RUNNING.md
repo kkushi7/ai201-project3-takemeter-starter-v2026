@@ -112,6 +112,18 @@ Sections 6 and 7 are next unit. Nothing in unit 5 needs them.
 
 ---
 
+## Local prediction service
+
+From the project root, after training and saving the model to `model/`, start the local service:
+
+```powershell
+python serve.py
+```
+
+The service loads the model from `model/` and listens at `http://127.0.0.1:8000`. Send predictions with `POST /predict`; view request counts, errors, latency, and predicted-label counts with `GET /metrics`. Structured request logs are appended to `logs/run.jsonl`. The generated model directory is not committed; train it locally before starting the service.
+
+---
+
 ## Your data
 
 `labels.csv` in your repo. Three columns:
