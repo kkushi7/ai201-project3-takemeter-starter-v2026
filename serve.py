@@ -3,6 +3,7 @@ import time
 from collections import Counter
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
@@ -19,8 +20,12 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
 model.eval()
 
-stats = {"requests": 0, "errors": 0,
-         "latency_ms_total": 0.0, "labels": Counter()}
+stats = {
+    "requests": 0,
+    "errors": 0,
+    "latency_ms_total": 0.0,
+    "labels": Counter(),
+}
 
 
 def write_log(event):
@@ -40,20 +45,33 @@ def reply(handler, status, payload):
 
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, *_):
-        pass  # Use structured request logs instead of the default text log.
+        pass
 
     def do_GET(self):
-        if self.path != "/metrics":
-            return reply(self, 404, {"error": "not_found"})
-        count = stats["requests"]
-        return reply(self, 200, {
-            "requests": count,
-            "errors": stats["errors"],
-            "average_latency_ms": round(
-                stats["latency_ms_total"] / count, 2
-            ) if count else 0,
-            "predicted_labels": dict(stats["labels"]),
-        })
+        path = urlsplit(self.path).path.rstrip("/") or "/"
+
+        if path == "/":
+            return reply(self, 200, {
+                "service": "TakeMeter",
+                "prediction": "POST /predict",
+                "metrics": "GET /metrics",
+            })
+
+        if path == "/metrics":
+            count = stats["requests"]
+            return reply(self, 200, {
+                "requests": count,
+                "errors": stats["errors"],
+                "average_latency_ms": round(
+                    stats["latency_ms_total"] / count, 2
+                ) if count else 0,
+                "predicted_labels": dict(stats["labels"]),
+            })
+
+        if path == "/predict":
+            return reply(self, 405, {"error": "Send POST to /predict."})
+
+        return reply(self, 404, {"error": "not_found"})
 
     def do_POST(self):
         started = time.perf_counter()
@@ -61,24 +79,37 @@ class Handler(BaseHTTPRequestHandler):
         stats["requests"] += 1
 
         try:
-            if self.path != "/predict":
+            path = urlsplit(self.path).path.rstrip("/")
+            if path != "/predict":
                 status, error = 404, "not_found"
                 return reply(self, status, {"error": error})
 
-            size = int(self.headers.get("Content-Length", "0"))
+            try:
+                size = int(self.headers.get("Content-Length", "0"))
+            except ValueError:
+                size = 0
+
             if size < 1 or size > MAX_BODY_BYTES:
                 status, error = 400, "invalid_body_size"
                 return reply(self, status, {"error": error})
 
-            data = json.loads(self.rfile.read(size))
+            try:
+                data = json.loads(self.rfile.read(size))
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                status, error = 400, "invalid_json"
+                return reply(self, status, {"error": error})
+
             text = data.get("text") if isinstance(data, dict) else None
             if not isinstance(text, str) or not text.strip():
                 status, error = 400, "text_required"
                 return reply(self, status, {"error": error})
 
             inputs = tokenizer(
-                text, return_tensors="pt", truncation=True,
-                padding=True, max_length=MAX_LENGTH,
+                text,
+                return_tensors="pt",
+                truncation=True,
+                padding=True,
+                max_length=MAX_LENGTH,
             )
             with torch.inference_mode():
                 probabilities = model(**inputs).logits.softmax(dim=-1)[0]
@@ -92,12 +123,10 @@ class Handler(BaseHTTPRequestHandler):
                 "confidence": round(float(probabilities[index]), 6),
             })
 
-        except (ValueError, json.JSONDecodeError):
-            status, error = 400, "invalid_json"
-            return reply(self, status, {"error": error})
         except Exception:
             status, error = 500, "prediction_failed"
             return reply(self, status, {"error": error})
+
         finally:
             elapsed = (time.perf_counter() - started) * 1000
             stats["latency_ms_total"] += elapsed
