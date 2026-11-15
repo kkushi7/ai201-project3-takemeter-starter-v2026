@@ -121,3 +121,21 @@ On each of the three seeds, accuracy on the model’s most-confident third of pr
      A number you missed stays where it is, gets diagnosed, and gets a fix
      attempted. That's where the points are.
      ───────────────────────────────────────────────────────────────────────── -->
+
+
+## Local service extension criteria
+
+1. **Prediction response:** In a fresh service session, 5 valid `POST /predict` requests return HTTP 200 with a label from `food_review`, `food_story`, or `recommendation`, and a confidence between 0 and 1.  
+**Why this target:** Five requests are enough to check the response shape repeatedly without turning this local demo into a load test; invalid labels or confidence values would make results unusable.
+
+2. **Structured logging and privacy:** Each of those 5 requests produces one JSONL record containing a timestamp, status, latency, label, and error field. No record contains the submitted post text.  
+**Why this target:** Logging every request gives a small but checkable operational record, while omitting text avoids retaining potentially sensitive submissions.
+
+3. **Metrics accuracy:** After those 5 requests, `GET /metrics` reports 5 requests, label counts matching the 5 log records, and a non-negative average latency matching their logged latencies to within 0.1 ms.  
+**Why this target:** Exact counts and a reproducible average are practical to verify in one session and help distinguish real service behavior from guessed numbers.
+
+4. **Bad-input handling:** Empty text, malformed JSON, and a body larger than 32,000 bytes each return HTTP 400 and create an error log record. A valid prediction sent afterward still returns HTTP 200.  
+**Why this target:** These are likely client mistakes for this small JSON API; returning a clear client error and continuing to serve requests is preferable to a crash or a misleading prediction.
+
+5. **Local startup:** After setup and creation of the required local `model/` artifact, running `python serve.py` from the project root starts the service on `127.0.0.1:8000`, and `GET /metrics` returns HTTP 200.  
+**Why this target:** One documented command makes the run path easy to repeat. I’m not requiring a committed model or hosted availability because the model is about 268.8 MB and this extension is explicitly local.
