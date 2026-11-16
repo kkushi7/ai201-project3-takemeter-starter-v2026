@@ -460,6 +460,12 @@ The model is still collapsing the review and story boundaries into recommendatio
 
 ## The Capstone
 
+## How I Used AI — Capstone
+
+**Moment 1:** I asked an AI assistant why opening `/predict` in a browser returned an error. It explained that the browser sends GET while prediction requires POST; I tested the endpoint with a POST request and received a label and confidence.
+
+**Moment 2:** I asked an AI assistant to help make repeated service tests reproducible and save their results. It suggested a Python harness. I ran it and inspected the reports; although the prediction and metrics results were recorded, `bad_inputs` was empty, so I did not count the error-handling criterion as demonstrated.
+
 ## The Shape: 
      - Shape A: I will package the classifier as a local API that starts with one documented command. It will return a predicted label and confidence, and record structured logs with timestamps, response times, request status, and predicted-label counts without saving submitted post text. I will include a text run record from a real session and document the Python version, pinned dependencies, and required model files and their sizes in `RUNNING.md`.
 
@@ -583,16 +589,6 @@ Metrics after ten predictions:
 ```json
 {"requests": 10, "errors": 0, "average_latency_ms": 20.11, "predicted_labels": {"recommendation": 9, "food_story": 1}}
 ```
-
-Bad-input responses and recovery:
-
-```text
-malformed_json: HTTP 400 {"error": "invalid_json"}
-empty_text: HTTP 400 {"error": "text_required"}
-oversized_body: HTTP 400 {"error": "invalid_body_size"}
-valid request afterward: HTTP 200 {"label": "recommendation", "confidence": 0.355183}
-```
-
 Startup metrics check:
 
 ```text
@@ -603,3 +599,17 @@ GET /metrics: HTTP 200
 The Python harness helped make valid requests repeatable: the manual baseline had one `invalid_json` error in 10 requests, while each of the three harness runs recorded 10/10 successful predictions. It also saved per-run metrics evidence, making the results easier to compare.
 
 This improvement changed how I tested the API; it did not change the server or improve the classifier. The saved reports show `bad_inputs: []`, so they do not prove that the three invalid-input tests passed in any of the after runs. I cannot claim the bad-input criterion improved. The trade-off is that the harness makes successful-request testing and evidence collection more consistent, but the error-handling criterion remains unverified.
+
+## What It Costs
+
+One test run means ten local prediction requests. The measured direct API/hosting cost was **$0.00 per run**: the service used the locally saved model and no paid API or hosted compute. That is $0.00 ÷ 10 = **$0.00 per prediction** in direct service fees; electricity, hardware depreciation, and my time were not measured.
+
+For 100 people making one prediction each per day, the direct service-fee arithmetic is **100 people × 1 prediction/person × $0.00/prediction = $0.00/day**. This assumes the service runs on existing local hardware; it is not an estimate of electricity or the cost of operating a hosted service, and the local server was not tested for 100 users.
+
+## What's Still Broken
+
+- **Criterion 4 — bad-input handling: MISSED.** The after-run reports have empty `bad_inputs` arrays, so they don’t record the three expected 400 responses or prove recovery with a later valid request. The evidence gap is in the test/reporting stage; it does not establish that `serve.py` mishandled those requests. I stopped after collecting the three harness runs without obtaining complete failure-test records. I would fix or rerun the harness so each invalid request’s status and response are saved, then repeat all three trials.
+
+## What I’d Do Next
+
+First, I’d make the test harness save and verify the malformed-JSON, empty-text, and oversized-body responses in every run, because the current reports don’t establish Criterion 4. Then I’d test capacity and measure actual electricity use before making claims about serving 100 people per day.
