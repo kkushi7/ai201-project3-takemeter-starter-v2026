@@ -1,0 +1,196 @@
+{
+  "run": 3,
+  "startup": {
+    "metrics_status": 200,
+    "metrics": {
+      "requests": 0,
+      "errors": 0,
+      "average_latency_ms": 0,
+      "predicted_labels": {}
+    }
+  },
+  "predictions": [
+    {
+      "status": 200,
+      "body": "{\"label\": \"recommendation\", \"confidence\": 0.367935}"
+    },
+    {
+      "status": 200,
+      "body": "{\"label\": \"food_story\", \"confidence\": 0.345904}"
+    },
+    {
+      "status": 200,
+      "body": "{\"label\": \"recommendation\", \"confidence\": 0.391063}"
+    },
+    {
+      "status": 200,
+      "body": "{\"label\": \"recommendation\", \"confidence\": 0.365571}"
+    },
+    {
+      "status": 200,
+      "body": "{\"label\": \"recommendation\", \"confidence\": 0.361509}"
+    },
+    {
+      "status": 200,
+      "body": "{\"label\": \"recommendation\", \"confidence\": 0.405305}"
+    },
+    {
+      "status": 200,
+      "body": "{\"label\": \"recommendation\", \"confidence\": 0.347205}"
+    },
+    {
+      "status": 200,
+      "body": "{\"label\": \"recommendation\", \"confidence\": 0.351244}"
+    },
+    {
+      "status": 200,
+      "body": "{\"label\": \"recommendation\", \"confidence\": 0.361738}"
+    },
+    {
+      "status": 200,
+      "body": "{\"label\": \"recommendation\", \"confidence\": 0.374423}"
+    }
+  ],
+  "metrics_after_ten_predictions": {
+    "http_status": 200,
+    "response": {
+      "requests": 10,
+      "errors": 0,
+      "average_latency_ms": 20.11,
+      "predicted_labels": {
+        "recommendation": 9,
+        "food_story": 1
+      }
+    },
+    "log_latency_mean_ms": 20.11
+  },
+  "bad_inputs": [
+    {
+      "case": "malformed_json",
+      "status": 400,
+      "body": "{\"error\": \"invalid_json\"}"
+    },
+    {
+      "case": "empty_text",
+      "status": 400,
+      "body": "{\"error\": \"text_required\"}"
+    },
+    {
+      "case": "oversized_body",
+      "status": 400,
+      "body": "{\"error\": \"invalid_body_size\"}"
+    }
+  ],
+  "valid_request_after_errors": {
+    "status": 200,
+    "body": "{\"label\": \"recommendation\", \"confidence\": 0.355183}"
+  },
+  "new_log_records": [
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 34.5,
+      "label": "recommendation",
+      "error": null
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 18.61,
+      "label": "food_story",
+      "error": null
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 15.95,
+      "label": "recommendation",
+      "error": null
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 18.46,
+      "label": "recommendation",
+      "error": null
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 18.44,
+      "label": "recommendation",
+      "error": null
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 22.4,
+      "label": "recommendation",
+      "error": null
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 20.25,
+      "label": "recommendation",
+      "error": null
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 19.49,
+      "label": "recommendation",
+      "error": null
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 18.37,
+      "label": "recommendation",
+      "error": null
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 14.63,
+      "label": "recommendation",
+      "error": null
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 400,
+      "latency_ms": 0.11,
+      "label": null,
+      "error": "invalid_json"
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 400,
+      "latency_ms": 0.09,
+      "label": null,
+      "error": "text_required"
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 400,
+      "latency_ms": 0.07,
+      "label": null,
+      "error": "invalid_body_size"
+    },
+    {
+      "timestamp": "2026-11-16T02:26:41Z",
+      "status": 200,
+      "latency_ms": 16.54,
+      "label": "recommendation",
+      "error": null
+    }
+  ],
+  "checks": {
+    "prediction_10_of_10": true,
+    "ten_prediction_logs": true,
+    "no_submitted_text_in_logs": true,
+    "metrics_match_ten_predictions": true,
+    "bad_inputs_and_recovery": true,
+    "service_and_metrics_endpoint": true
+  }
+}

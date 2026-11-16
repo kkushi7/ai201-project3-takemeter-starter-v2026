@@ -482,13 +482,15 @@ text
 
 ## Criteria
 
+Run Test - Before
+
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Prediction response | 10/10 valid requests return 200 with a valid label and confidence | 9/10 successful; one `invalid_json` 400 | 10/10 successful | 10/10 successful | MISSED |
-| 2. Logging and privacy | 10/10 requests have complete JSONL records; no submitted text is logged | 10/10 records; text absent | 10/10 records; text absent | 10/10 records; text absent | MET |
-| 3. Metrics and latency | Metrics match all 10 requests and logged labels; average is within 0.1 ms of log calculation | 10 requests; 44.67 ms vs. 44.667 ms from log | Log mean 25.24 ms; metrics response not recorded | Log mean 27.84 ms; metrics response not recorded | MET |
-| 4. Bad-input handling | All 3 invalid inputs return 400 and are logged; valid request afterward returns 200 | All 3 error types and a later 200 appear in the log | Empty-text result not evidenced; valid request later logged as 200 | Empty-text result not evidenced; valid request later logged as 200 | MISSED |
-| 5. Local startup | `python serve.py` starts the service; `GET /metrics` returns 200 | Startup and metrics response reported; output not saved here | Not recorded | Not recorded | MET |
+| 1. Prediction response | 10/10 requests return a valid prediction | 9 predictions, 1 `invalid_json` error | 10/10 predictions | 10/10 predictions | MISSED |
+| 2. Logging and privacy | 10/10 requests have complete JSONL records; submitted text is not logged | 10 records; text absent | 10 records; text absent | 10 records; text absent | MET |
+| 3. Metrics and latency | Metrics match all 10 requests and logged labels; average is within 0.1 ms of the log calculation | 10 requests, 1 error; 44.67 ms matches 44.667 ms | Log mean 25.24 ms; metrics output not provided | 10 requests; 27.84 ms matches 27.842 ms | MISSED |
+| 4. Bad-input handling | All 3 invalid inputs return 400 and are logged; a valid request afterward returns 200 | The log shows the required error types and a later 200 | The test output shows malformed JSON instead of empty text | The test output shows malformed JSON instead of empty text | MISSED |
+| 5. Local startup | `python serve.py` starts the service; `GET /metrics` returns 200 | Metrics response reported | Metrics response not recorded here | Metrics returned HTTP 200 | MISSED |
 
 ## Evidence excerpts
 
@@ -518,7 +520,7 @@ Source: `serve.py`, `Handler.do_GET` for `/metrics`; `write_log` for request rec
 }
 }
 ```
-The matching ten log latencies average 44.667 ms, which rounds to 44.67 ms.
+The matching ten log latencies average 27.842 ms, which rounds to 27.84 ms.
 
 **Criterion 4 — Bad-input handling**  
 Source: `serve.py`, `Handler.do_POST`; recorded by `write_log` in `logs/run.jsonl`.
@@ -536,4 +538,68 @@ Source: `serve.py`, startup block and `Handler.do_GET` (`/metrics`).
 {"requests": 4, "errors": 4, "average_latency_ms": 0.15, "predicted_labels": {}}
 HTTP_STATUS=200
 ```
-The metrics endpoint returned HTTP 200. 4 predictions had been recorded in this server session.
+The metrics endpoint returned HTTP 200. 4 POSTs had been recorded and all failed.
+
+## Diagnoses for missed criteria
+
+**Criterion 1 — Prediction response:** Run 1 missed the target at the PowerShell request-construction stage. One request reached `serve.py` as malformed JSON, so `Handler.do_POST` returned `400 invalid_json` before tokenization or model inference. This was a client payload error, not a classifier failure. Runs 2 and 3 passed, but the 10/10 target did not hold across all three runs.
+
+**Criterion 3 — Metrics and latency:** This is an evidence gap, not a demonstrated metrics-calculation failure. Run 1’s 44.67 ms metric matches its log mean of 44.667 ms, and Run 3’s 27.84 ms metric matches its log mean of about 27.842 ms. Run 2’s `/metrics` output was not saved, so the target cannot be confirmed for all three runs. The metrics are in-memory and reset whenever the server restarts, which is why the response must be captured before stopping each run.
+
+**Criterion 4 — Bad-input handling:** The failure was in the test procedure for Runs 2 and 3: the submitted test requests produced `invalid_json` instead of demonstrating the intended empty-text case (`text_required`). Therefore, those runs do not establish that all three distinct invalid inputs were handled as required. The Run 1 log does show `invalid_json`, `text_required`, and `invalid_body_size`, followed by a successful prediction. This is an incomplete-test-evidence miss, not proof that the handler failed those cases.
+
+**Criterion 5 — Local startup:** No startup failure is shown. The saved output confirms `/metrics` returned HTTP 200 in one session, but equivalent evidence for all three runs is missing. In the excerpt showing `requests: 4, errors: 4`, the four POST requests errored; they were not four successful predictions. The metrics GET itself still returned 200. Thus the current MISS is due to incomplete evidence for the three-run target, not a demonstrated failure in the startup block or `Handler.do_GET`.
+
+## Extension test results after the improvement
+
+| Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---|---|---|---|
+| 1. Prediction response | 10/10 valid requests return HTTP 200 with a label and confidence | 10/10 | 10/10 | 10/10 | **MET** |
+| 2. Logging and privacy | 10/10 requests have JSONL records; submitted text is not logged | 10 records; text absent | 10 records; text absent | 10 records; text absent | **MET** |
+| 3. Metrics and latency | Metrics match 10 requests and logged labels; average is within 0.1 ms of log mean | 55.56 ms vs. 55.557 ms | 25.83 ms vs. 25.833 ms | 20.11 ms vs. 20.11 ms | **MET** |
+| 4. Bad-input handling | All 3 invalid inputs return 400 and are logged; a valid request afterward returns 200 | Not shown in saved report | Not shown in saved report | All 3 returned 400; following valid request returned 200 | **MISSED** |
+| 5. Local startup | Service starts and `GET /metrics` returns HTTP 200 | `/metrics`: 200 | `/metrics`: 200 | `/metrics`: 200 | **MET** |
+
+### Run 3 evidence
+
+Source: `logs/check_run_3.json`, produced by `run_service_checks.py`. The service
+responses and request logs are produced by `serve.py` (`Handler.do_POST`,
+`Handler.do_GET`, and `write_log`).
+
+Prediction response:
+
+```json
+{"label": "recommendation", "confidence": 0.367935}
+```
+
+Example JSONL record:
+
+```json
+{"timestamp": "2026-11-16T02:26:41Z", "status": 200, "latency_ms": 34.5, "label": "recommendation", "error": null}
+```
+
+Metrics after ten predictions:
+
+```json
+{"requests": 10, "errors": 0, "average_latency_ms": 20.11, "predicted_labels": {"recommendation": 9, "food_story": 1}}
+```
+
+Bad-input responses and recovery:
+
+```text
+malformed_json: HTTP 400 {"error": "invalid_json"}
+empty_text: HTTP 400 {"error": "text_required"}
+oversized_body: HTTP 400 {"error": "invalid_body_size"}
+valid request afterward: HTTP 200 {"label": "recommendation", "confidence": 0.355183}
+```
+
+Startup metrics check:
+
+```text
+GET /metrics: HTTP 200
+```
+**Did it help, and how do I know:**
+
+The Python harness helped make valid requests repeatable: the manual baseline had one `invalid_json` error in 10 requests, while each of the three harness runs recorded 10/10 successful predictions. It also saved per-run metrics evidence, making the results easier to compare.
+
+This improvement changed how I tested the API; it did not change the server or improve the classifier. The saved reports show `bad_inputs: []`, so they do not prove that the three invalid-input tests passed in any of the after runs. I cannot claim the bad-input criterion improved. The trade-off is that the harness makes successful-request testing and evidence collection more consistent, but the error-handling criterion remains unverified.
