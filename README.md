@@ -480,5 +480,60 @@ text
 {"timestamp": "2026-11-14T05:36:16Z", "status": 200, "latency_ms": 271.44, "label": "recommendation", "error": null}
 {"timestamp": "2026-11-14T05:38:26Z", "status": 200, "latency_ms": 47.32, "label": "recommendation", "error": null}
 
+## Criteria
 
+| Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---|---|---|---|
+| 1. Prediction response | 10/10 valid requests return 200 with a valid label and confidence | 9/10 successful; one `invalid_json` 400 | 10/10 successful | 10/10 successful | MISSED |
+| 2. Logging and privacy | 10/10 requests have complete JSONL records; no submitted text is logged | 10/10 records; text absent | 10/10 records; text absent | 10/10 records; text absent | MET |
+| 3. Metrics and latency | Metrics match all 10 requests and logged labels; average is within 0.1 ms of log calculation | 10 requests; 44.67 ms vs. 44.667 ms from log | Log mean 25.24 ms; metrics response not recorded | Log mean 27.84 ms; metrics response not recorded | MET |
+| 4. Bad-input handling | All 3 invalid inputs return 400 and are logged; valid request afterward returns 200 | All 3 error types and a later 200 appear in the log | Empty-text result not evidenced; valid request later logged as 200 | Empty-text result not evidenced; valid request later logged as 200 | MISSED |
+| 5. Local startup | `python serve.py` starts the service; `GET /metrics` returns 200 | Startup and metrics response reported; output not saved here | Not recorded | Not recorded | MET |
 
+## Evidence excerpts
+
+**Criterion 1 — Prediction responses**  
+Source: `serve.py`, `Handler.do_POST`; recorded by `write_log` in `logs/run.jsonl`.  
+Example successful response record:
+```json
+{"timestamp": "2026-11-16T00:31:36Z", "status": 200, "latency_ms": 28.17, "label": "recommendation", "error": null}
+```
+
+**Criterion 2 — Logging and privacy**  
+Source: `serve.py`, `write_log`; `logs/run.jsonl`. Records contain result metadata, not submitted text.
+```json
+{"timestamp": "2026-11-16T00:31:36Z", "status": 200, "latency_ms": 26.18, "label": "food_story", "error": null}
+```
+
+**Criterion 3 — Metrics and latency**  
+Source: `serve.py`, `Handler.do_GET` for `/metrics`; `write_log` for request records.
+```json
+{
+"requests": 10,
+"errors": 0,
+"average_latency_ms": 27.84,
+"predicted_labels": {
+"recommendation": 9,
+"food_review": 1
+}
+}
+```
+The matching ten log latencies average 44.667 ms, which rounds to 44.67 ms.
+
+**Criterion 4 — Bad-input handling**  
+Source: `serve.py`, `Handler.do_POST`; recorded by `write_log` in `logs/run.jsonl`.
+```json
+{"timestamp": "2026-11-16T00:04:15Z", "status": 400, "latency_ms": 0.13, "label": null, "error": "invalid_json"}
+{"timestamp": "2026-11-16T00:08:34Z", "status": 400, "latency_ms": 0.19, "label": null, "error": "text_required"}
+{"timestamp": "2026-11-16T00:09:12Z", "status": 400, "latency_ms": 0.11, "label": null, "error": "invalid_body_size"}
+{"timestamp": "2026-11-16T00:17:08Z", "status": 200, "latency_ms": 36.52, "label": "recommendation", "error": null}
+```
+
+**Criterion 5 — Local startup**  
+Source: `serve.py`, startup block and `Handler.do_GET` (`/metrics`).
+
+```text
+{"requests": 4, "errors": 4, "average_latency_ms": 0.15, "predicted_labels": {}}
+HTTP_STATUS=200
+```
+The metrics endpoint returned HTTP 200. 4 predictions had been recorded in this server session.
